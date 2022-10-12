@@ -1,0 +1,17 @@
+{
+    "name": "zhaohangyang/huoban_openapi",
+    "autoload": {
+        "psr-4": {
+            "HuobanOpenapi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ZhaohangYang",
+            "email": "804142454@qq.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.5"
+    }
+}

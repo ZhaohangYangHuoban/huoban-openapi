@@ -1,5 +1,5 @@
 {
-    "name": "zhaohangyang/huoban_openapi",
+    "name": "zhaohangyang/huoban-openapi",
     "autoload": {
         "psr-4": {
             "HuobanOpenapi\\": "src/"
@@ -13,5 +13,6 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "^7.5"
-    }
+    },
+    "license": "MIT"
 }

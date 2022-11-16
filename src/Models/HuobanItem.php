@@ -20,6 +20,18 @@ class HuobanItem extends HuobanBasic
     }
 
     /**
+     * 增[批量]
+     *
+     * @param array $body
+     * @param array $options
+     * @return void
+     */
+    public function creates(array $body = [], array $options = [])
+    {
+        return $this->execute('POST', "/items", $body, $options);
+    }
+
+    /**
      * 删
      *
      * @param integer $item_id

@@ -1,17 +1,17 @@
 <?php
 
-namespace HuobanOpenapi\Request;
+namespace HuobanOpenApi\Request;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
-use HuobanOpenapi\Contracts\HuoBanRequestInterface;
+use HuobanOpenApi\Contracts\HuoBanRequestInterface;
 use Psr\Http\Message\RequestInterface;
 
 class GuzzleRequest implements HuoBanRequestInterface
 {
-    use \HuobanOpenapi\StandardComponent\Config;
+    use \HuobanOpenApi\StandardComponent\Config;
 
     /**
      * 请求客户端对象
@@ -71,7 +71,7 @@ class GuzzleRequest implements HuoBanRequestInterface
      * @param string $url
      * @param array $body
      * @param array $options
-     * @return \GuzzleHttp\Psr7\Request
+     * @return Request
      */
     public function getRequest(string $method, string $url, array $body = [], array $options = []): Request
     {
@@ -151,7 +151,7 @@ class GuzzleRequest implements HuoBanRequestInterface
     public function fileUpload(string $method, string $url, array $body = [], array $options = []): array
     {
         $url      = '/openapi/' . ($options['version'] ?? 'v1') . $url;
-        $response = $this->getHttpClient()->request($method, $url, $body, $options);
+        $response = $this->getHttpClient()->request($method, $url, $body);
 
         return json_decode($response->getBody(), true);
     }

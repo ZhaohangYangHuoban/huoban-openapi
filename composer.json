@@ -2,7 +2,7 @@
     "name": "zhaohangyang/huoban-openapi",
     "autoload": {
         "psr-4": {
-            "HuobanOpenapi\\": "src/"
+            "HuobanOpenApi\\": "src/"
         }
     },
     "authors": [

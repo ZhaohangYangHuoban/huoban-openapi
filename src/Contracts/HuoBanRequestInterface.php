@@ -1,9 +1,9 @@
 <?php
 
-namespace HuobanOpenapi\Contracts;
+namespace HuobanOpenApi\Contracts;
 
-use \Psr\Http\Client\ClientInterface;
-use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
 
 interface HuoBanRequestInterface
 {
@@ -36,7 +36,7 @@ interface HuoBanRequestInterface
      * @param string $url
      * @param array $body
      * @param array $options
-     * @return Request
+     * @return RequestInterface
      */
     public function getRequest(string $method, string $url, array $body = [], array $options = []): RequestInterface;
 
@@ -62,5 +62,4 @@ interface HuoBanRequestInterface
      * @return void
      */
     public function requestJsonPool(array $requests);
-
 }

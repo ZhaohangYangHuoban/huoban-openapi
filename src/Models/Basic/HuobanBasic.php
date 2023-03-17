@@ -1,27 +1,23 @@
 <?php
+
+declare(strict_types=1);
 /*
  * @Author: ZhaohangYang <yangzhaohang@comsenz-service.com>
  * @Date: 2021-05-25 10:26:41
  * @Description: 伙伴智慧大客户研发部
  */
 
-namespace HuobanOpenapi\Models;
+namespace HuobanOpenApi\Models\Basic;
 
-use HuobanOpenapi\Contracts\HuoBanRequestInterface;
+use HuobanOpenApi\HuobanOpenApi;
 
 class HuobanBasic
 {
-    use \HuobanOpenapi\StandardComponent\Config;
+    public $huobanOpenApi;
 
-    public $request;
-
-    public $method;
-    public $path;
-
-    public function __construct(HuoBanRequestInterface $request, $config)
+    public function __construct(HuobanOpenApi $huobanOpenApi)
     {
-        $this->initConfig($config);
-        $this->request = $request;
+        $this->huobanOpenApi = $huobanOpenApi;
     }
 
     /**
@@ -33,9 +29,7 @@ class HuobanBasic
      */
     public function execute(string $method, string $url, array $body = [], array $options = []): mixed
     {
-
-        $response = $this->request->execute($method, $url, $body, $options);
+        $response = $this->huobanOpenApi->request->execute($method, $url, $body, $options);
         return $response['data'] ?? $response;
     }
-
 }

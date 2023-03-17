@@ -1,6 +1,6 @@
 <?php
 
-namespace HuobanOpenapi\StandardComponent;
+namespace HuobanOpenApi\StandardComponent;
 
 trait Config
 {

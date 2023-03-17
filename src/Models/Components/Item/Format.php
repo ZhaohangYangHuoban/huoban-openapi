@@ -1,6 +1,6 @@
 <?php
 
-namespace HuobanOpenapi\Models\Components\Item;
+namespace HuobanOpenApi\Models\Components\Item;
 
 /**
  * 数据格式化

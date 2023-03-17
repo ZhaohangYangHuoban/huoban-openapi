@@ -1,12 +1,13 @@
 <?php
 
-namespace HuobanOpenapi\Models;
+namespace HuobanOpenApi\Models;
 
-use HuobanOpenapi\Models\HuobanBasic;
+use HuobanOpenApi\Models\Basic\HuobanBasic;
 
 class HuobanItem extends HuobanBasic
 {
-    use \HuobanOpenapi\Models\Components\Item\Format;
+    use \HuobanOpenApi\Models\Components\Item\Format;
+
     /**
      * 增
      *
@@ -82,5 +83,4 @@ class HuobanItem extends HuobanBasic
     {
         return $this->execute('POST', "/item/list", $body, $options);
     }
-
 }

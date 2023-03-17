@@ -1,6 +1,6 @@
 <?php
 
-namespace HuobanOpenapi\Contracts;
+namespace HuobanOpenApi\Contracts;
 
 interface Factory
 {

@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /*
  * @Author: ZhaohangYang <yangzhaohang@comsenz-service.com>
- * @Date: 2021-05-25 10:26:41
- * @Description: 伙伴智慧大客户研发部
+ * @Date: 2023-03-17 14:50:45
+ * @Description: 伙伴KA研发部
  */
 
-namespace HuobanOpenapi\Helpers;
+namespace HuobanOpenApi\Helpers;
 
 class HuobanVerify
 {
@@ -26,5 +28,4 @@ class HuobanVerify
             throw new \Exception($location . $message, $response['code']);
         }
     }
-
 }

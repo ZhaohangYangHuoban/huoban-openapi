@@ -1,8 +1,8 @@
 <?php
 
-namespace HuobanOpenapi\Models;
+namespace HuobanOpenApi\Models;
 
-use HuobanOpenapi\Models\HuobanBasic;
+use HuobanOpenApi\Models\Basic\HuobanBasic;
 
 class HuobanTableDw extends HuobanBasic
 {

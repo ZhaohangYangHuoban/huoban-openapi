@@ -31,7 +31,7 @@ class HuobanFile extends HuobanBasic
         //          ],
         //      ],
         //  ];
-        $response = $this->huobanOpenApi->request->fileUpload('POST', "/file/upload", $body, $options);
+        $response = $this->request->fileUpload('POST', "/file/upload", $body, $options);
         return $response['data']['file_id'] ?? $response;
     }
 }

@@ -17,7 +17,7 @@ class HuobanItem extends HuobanBasic
      */
     public function create(array $body = [], array $options = [])
     {
-        return $this->execute('POST', "/item", $body, $options);
+        return $this->request->execute('POST', "/item", $body, $options);
     }
 
     /**
@@ -29,7 +29,7 @@ class HuobanItem extends HuobanBasic
      */
     public function creates(array $body = [], array $options = [])
     {
-        return $this->execute('POST', "/items", $body, $options);
+        return $this->request->execute('POST', "/items", $body, $options);
     }
 
     /**
@@ -42,7 +42,7 @@ class HuobanItem extends HuobanBasic
      */
     public function del(int $item_id, array $body = [], array $options = [])
     {
-        return $this->execute('DELETE', "/item/{$item_id}", $body, $options);
+        return $this->request->execute('DELETE', "/item/{$item_id}", $body, $options);
     }
 
     /**
@@ -55,7 +55,7 @@ class HuobanItem extends HuobanBasic
      */
     public function update(int $item_id, array $body = [], array $options = [])
     {
-        return $this->execute('PUT', "/item/{$item_id}", $body, $options);
+        return $this->request->execute('PUT', "/item/{$item_id}", $body, $options);
     }
 
     /**
@@ -68,7 +68,7 @@ class HuobanItem extends HuobanBasic
      */
     public function get(int $item_id, array $body = [], array $options = [])
     {
-        $data = $this->execute('POST', "/item/{$item_id}", $body, $options);
+        $data = $this->request->execute('POST', "/item/{$item_id}", $body, $options);
         return $options['only_item'] ?? $data['item'];
     }
 
@@ -81,6 +81,6 @@ class HuobanItem extends HuobanBasic
      */
     public function find(array $body = [], array $options = [])
     {
-        return $this->execute('POST', "/item/list", $body, $options);
+        return $this->request->execute('POST', "/item/list", $body, $options);
     }
 }

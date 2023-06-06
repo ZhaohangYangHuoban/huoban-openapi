@@ -6,10 +6,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
-use HuobanOpenApi\Contracts\HuoBanRequestInterface;
+use HuobanOpenApi\Contracts\HuobanRequestInterface;
 use Psr\Http\Message\RequestInterface;
 
-class GuzzleRequest implements HuoBanRequestInterface
+class GuzzleRequest implements HuobanRequestInterface
 {
     use \HuobanOpenApi\StandardComponent\Config;
 

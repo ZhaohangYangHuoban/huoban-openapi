@@ -17,7 +17,7 @@ class HuobanTableDw extends HuobanBasic
     public function get($tableId, $options = []): array
     {
         $body = [];
-        return $this->execute('POST', "/dw_table/{$tableId}", $body, $options);
+        return $this->request->execute('POST', "/dw_table/{$tableId}", $body, $options);
     }
 
     /**
@@ -29,6 +29,6 @@ class HuobanTableDw extends HuobanBasic
     public function getTableList($options = []): array
     {
         $body = [];
-        return $this->execute('POST', "/dw_table/list", $body, $options);
+        return $this->request->execute('POST', "/dw_table/list", $body, $options);
     }
 }

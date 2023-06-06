@@ -133,7 +133,7 @@ class HuobanFilter
      * 判断请求体是否已经存在指定的field
      *
      * @param [type] $field
-     * @return void
+     * @return bool
      */
     public function getFilterConditionsRepeatKey(string $field, ?array $filter): bool
     {
@@ -170,9 +170,9 @@ class HuobanFilter
      * 设置单次查询起始位置
      *
      * @param integer $offset
-     * @return void
+     * @return object
      */
-    public function setOffset(int $offset)
+    public function setOffset(int $offset): object
     {
         $this->body['offset'] = $offset;
         return $this;
@@ -181,7 +181,7 @@ class HuobanFilter
     /**
      * 设置筛选器条件，Item_ids
      *
-     * @return void
+     * @return object
      */
     public function inItemIds($item_ids): object
     {
@@ -285,45 +285,45 @@ class HuobanFilter
      */
     public function exampleFilterConditions()
     {
-        $conditions = [
-            'F::{table_alias.field_alias/field_id}' => [
-                'eq' => '1',
-            ], //等于
-            'F::{table_alias.field_alias/field_id}' => [
-                'ne' => '1',
-            ], //不等于
-            'F::{table_alias.field_alias/field_id}' => [
-                'in' => ['1'],
-            ], //包含
-            'F::{table_alias.field_alias/field_id}' => [
-                'nin' => ['1'],
-            ], //不包含
-            'F::{table_alias.field_alias/field_id}' => [
-                'gt' => 1,
-            ], //大于
-            'F::{table_alias.field_alias/field_id}' => [
-                'gte' => 1,
-            ], //大等于
-            'F::{table_alias.field_alias/field_id}' => [
-                'lt' => 1,
-            ], //小于
-            'F::{table_alias.field_alias/field_id}' => [
-                'in' => 1,
-            ], //小等于
-            'F::{table_alias.field_alias/field_id}' => [
-                'em' => true,
-            ], //是否为空
-            'F::{table_alias.field_alias/field_id}' => [
-                'or' => [
-                    [
-                        'ne' => '1',
-                    ],
-                    [
-                        'gt' => '2',
-                    ],
-                ],
-            ], //多个条件并集
-        ];
+        // $conditions = [
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'eq' => '1',
+        //     ], //等于
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'ne' => '1',
+        //     ], //不等于
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'in' => ['1'],
+        //     ], //包含
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'nin' => ['1'],
+        //     ], //不包含
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'gt' => 1,
+        //     ], //大于
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'gte' => 1,
+        //     ], //大等于
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'lt' => 1,
+        //     ], //小于
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'in' => 1,
+        //     ], //小等于
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'em' => true,
+        //     ], //是否为空
+        //     'F::{table_alias.field_alias/field_id}' => [
+        //         'or' => [
+        //             [
+        //                 'ne' => '1',
+        //             ],
+        //             [
+        //                 'gt' => '2',
+        //             ],
+        //         ],
+        //     ], //多个条件并集
+        // ];
     }
 
     /**

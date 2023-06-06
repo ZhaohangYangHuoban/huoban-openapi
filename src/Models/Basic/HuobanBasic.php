@@ -9,27 +9,14 @@ declare(strict_types=1);
 
 namespace HuobanOpenApi\Models\Basic;
 
-use HuobanOpenApi\HuobanOpenApi;
+use HuobanOpenApi\Contracts\HuobanRequestInterface;
 
 class HuobanBasic
 {
-    public $huobanOpenApi;
+    public $request;
 
-    public function __construct(HuobanOpenApi $huobanOpenApi)
+    public function __construct(HuobanRequestInterface $request)
     {
-        $this->huobanOpenApi = $huobanOpenApi;
-    }
-
-    /**
-     * 执行
-     *
-     * @param array $body
-     * @param array $options
-     * @return mixed
-     */
-    public function execute(string $method, string $url, array $body = [], array $options = []): mixed
-    {
-        $response = $this->huobanOpenApi->request->execute($method, $url, $body, $options);
-        return $response['data'] ?? $response;
+        $this->request = $request;
     }
 }

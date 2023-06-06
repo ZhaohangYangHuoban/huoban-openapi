@@ -5,7 +5,7 @@ namespace HuobanOpenApi\Contracts;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 
-interface HuoBanRequestInterface
+interface HuobanRequestInterface
 {
     /**
      * 执行请求

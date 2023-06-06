@@ -17,7 +17,7 @@ class HuobanItemDw extends HuobanBasic
      */
     public function create(array $body = [], array $options = [])
     {
-        return $this->execute('POST', "/dw_item", $body, $options);
+        return $this->request->execute('POST', "/dw_item", $body, $options);
     }
 
     /**
@@ -30,7 +30,7 @@ class HuobanItemDw extends HuobanBasic
      */
     public function del(int $item_id, array $body = [], array $options = [])
     {
-        return $this->execute('DELETE', "/dw_item/{$item_id}", $body, $options);
+        return $this->request->execute('DELETE', "/dw_item/{$item_id}", $body, $options);
     }
 
     /**
@@ -43,7 +43,7 @@ class HuobanItemDw extends HuobanBasic
      */
     public function update(int $item_id, array $body = [], array $options = [])
     {
-        return $this->execute('PUT', "/dw_item/{$item_id}", $body, $options);
+        return $this->request->execute('PUT', "/dw_item/{$item_id}", $body, $options);
     }
 
     /**
@@ -56,7 +56,7 @@ class HuobanItemDw extends HuobanBasic
      */
     public function get(int $item_id, array $body = [], array $options = [])
     {
-        return $this->execute('POST', "/dw_item/{$item_id}", $body, $options);
+        return $this->request->execute('POST', "/dw_item/{$item_id}", $body, $options);
     }
 
     /**
@@ -68,6 +68,6 @@ class HuobanItemDw extends HuobanBasic
      */
     public function find(array $body = [], array $options = [])
     {
-        return $this->execute('POST', "/dw_item/list", $body, $options);
+        return $this->request->execute('POST', "/dw_item/list", $body, $options);
     }
 }

@@ -14,10 +14,10 @@ class HuobanTable extends HuobanBasic
      * @param array $options
      * @return array
      */
-    public function get($tableId, $options = []): array
+    public function get( $tableId, $options = [] ) : array
     {
         $body = [];
-        return $this->request->execute('POST', "/table/{$tableId}", $body, $options);
+        return $this->request->execute( 'POST', "/table/{$tableId}", $body, $options );
     }
 
     /**
@@ -26,9 +26,9 @@ class HuobanTable extends HuobanBasic
      * @param array $options
      * @return array
      */
-    public function getTableList($options = []): array
+    public function getTableList( $options = [] ) : array
     {
         $body = [];
-        return $this->request->execute('POST', "/table/list", $body, $options);
+        return $this->request->execute( 'POST', "/table/list", $body, $options );
     }
 }

@@ -6,12 +6,14 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
-use HuobanOpenApi\Contracts\HuobanRequestInterface;
 use Psr\Http\Message\RequestInterface;
+use HuobanOpenApi\Contracts\HuobanConfigInterface;
+use HuobanOpenApi\Contracts\HuobanRequestInterface;
+use HuobanOpenApi\Config\HuobanConfig;
 
 class GuzzleRequest implements HuobanRequestInterface
 {
-    use \HuobanOpenApi\StandardComponent\Config;
+    protected HuobanConfigInterface $huobanConfig;
 
     /**
      * 请求客户端对象
@@ -23,9 +25,9 @@ class GuzzleRequest implements HuobanRequestInterface
      *
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct( array $config )
     {
-        $this->initConfig($config);
+        $this->huobanConfig = new HuobanConfig( $config );
     }
 
     /**
@@ -34,15 +36,15 @@ class GuzzleRequest implements HuobanRequestInterface
      * @param array $options
      * @return array
      */
-    public function defaultHeader(array $options = []): array
+    public function defaultHeader( array $options = [] ) : array
     {
-        $default_headers = [
+        $default_headers = [ 
             'Content-Type'       => 'application/json',
-            'Open-Authorization' => 'Bearer ' . $this->config['api_key'],
+            'Open-Authorization' => 'Bearer ' . $this->huobanConfig->getApiKey(),
         ];
 
         $options_headers = $options['headers'] ?? [];
-        return array_merge($default_headers, $options_headers);
+        return array_merge( $default_headers, $options_headers );
     }
 
     /**
@@ -50,16 +52,16 @@ class GuzzleRequest implements HuobanRequestInterface
      *
      * @return \GuzzleHttp\Client
      */
-    public function getHttpClient(): Client
+    public function getHttpClient() : Client
     {
-        if (!$this->client) {
-            $this->client = new Client([
-                'base_uri'    => $this->config['api_url'],
+        if ( ! $this->client ) {
+            $this->client = new Client( [ 
+                'base_uri'    => $this->huobanConfig->getApiUrl(),
                 'timeout'     => 600,
                 'verify'      => false,
                 'http_errors' => true,
                 'headers'     => $this->defaultHeader(),
-            ]);
+            ] );
         }
         return $this->client;
     }
@@ -73,13 +75,13 @@ class GuzzleRequest implements HuobanRequestInterface
      * @param array $options
      * @return Request
      */
-    public function getRequest(string $method, string $url, array $body = [], array $options = []): Request
+    public function getRequest( string $method, string $url, array $body = [], array $options = [] ) : Request
     {
-        $url     = '/openapi/' . ($options['version'] ?? 'v1') . $url;
-        $body    = json_encode($body);
-        $headers = $this->defaultHeader($options);
+        $url     = '/openapi/' . ( $options['version'] ?? 'v1' ) . $url;
+        $body    = json_encode( $body );
+        $headers = $this->defaultHeader( $options );
 
-        return new Request($method, $url, $headers, $body);
+        return new Request( $method, $url, $headers, $body );
     }
 
     /**
@@ -88,15 +90,15 @@ class GuzzleRequest implements HuobanRequestInterface
      * @param RequestInterface $request
      * @return array
      */
-    public function requestJsonSync(RequestInterface $request): array
+    public function requestJsonSync( RequestInterface $request ) : array
     {
         try {
-            $response = $this->getHttpClient()->send($request);
-        } catch (ServerException $e) {
+            $response = $this->getHttpClient()->send( $request );
+        } catch ( ServerException $e ) {
             $response = $e->getResponse();
         }
 
-        return json_decode($response->getBody(), true);
+        return json_decode( $response->getBody(), true );
     }
 
     /**
@@ -106,35 +108,37 @@ class GuzzleRequest implements HuobanRequestInterface
      * @param integer|null $concurrency
      * @return array
      */
-    public function requestJsonPool(array $requests, ?int $concurrency = 20): array
+    public function requestJsonPool( array $requests, ?int $concurrency = 20 ) : array
     {
 
         $success_data = $error_data = [];
-        $client       = $this->getHttpClient();
+        $client = $this->getHttpClient();
 
-        $pool = new Pool($client, $requests, [
+        $pool = new Pool( $client, $requests, [ 
             'concurrency' => $concurrency,
-            'fulfilled'   => function ($response, $index) use (&$success_data) {
-                $success_data[] = [
+            'fulfilled'   => function ($response, $index) use (&$success_data)
+            {
+                $success_data[] = [ 
                     'index'    => $index,
-                    'response' => json_decode($response->getBody(), true),
+                    'response' => json_decode( $response->getBody(), true ),
                 ];
             },
-            'rejected'    => function ($response, $index) use (&$error_data) {
-                $error_data[] = [
+            'rejected'    => function ($response, $index) use (&$error_data)
+            {
+                $error_data[] = [ 
                     'index'    => $index,
                     'response' => $response,
                 ];
             },
-        ]);
+        ] );
 
         $promise = $pool->promise();
         $promise->wait();
-        return ['success_data' => $success_data, 'error_data' => $error_data];
+        return [ 'success_data' => $success_data, 'error_data' => $error_data ];
     }
 
     /**
-     * 执行请求
+     * 执行一般请求
      *
      * @param string $method
      * @param string $url
@@ -142,17 +146,26 @@ class GuzzleRequest implements HuobanRequestInterface
      * @param array $options
      * @return array
      */
-    public function execute(string $method, string $url, array $body = [], array $options = []): array
+    public function execute( string $method, string $url, array $body = [], array $options = [] ) : array
     {
-        $request = $this->getRequest($method, $url, $body, $options);
-        return $this->requestJsonSync($request);
+        $request = $this->getRequest( $method, $url, $body, $options );
+        return $this->requestJsonSync( $request );
     }
 
-    public function fileUpload(string $method, string $url, array $body = [], array $options = []): array
+    /**
+     * 执行上传请求
+     *
+     * @param string $method
+     * @param string $url
+     * @param array  $body
+     * @param array  $options
+     * @return array
+     */
+    public function fileUpload( string $method, string $url, array $body = [], array $options = [] ) : array
     {
-        $url      = '/openapi/' . ($options['version'] ?? 'v1') . $url;
-        $response = $this->getHttpClient()->request($method, $url, $body);
+        $url      = '/openapi/' . ( $options['version'] ?? 'v1' ) . $url;
+        $response = $this->getHttpClient()->request( $method, $url, $body );
 
-        return json_decode($response->getBody(), true);
+        return json_decode( $response->getBody(), true );
     }
 }

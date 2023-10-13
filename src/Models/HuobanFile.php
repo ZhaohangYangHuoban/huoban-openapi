@@ -12,7 +12,7 @@ class HuobanFile extends HuobanBasic
      * @param array $options
      * @return array
      */
-    public function upload($body = [], $options = []): array
+    public function upload( $body = [], $options = [] ) : array
     {
         //  example
         //  $body = [
@@ -31,7 +31,6 @@ class HuobanFile extends HuobanBasic
         //          ],
         //      ],
         //  ];
-        $response = $this->request->fileUpload('POST', "/file/upload", $body, $options);
-        return $response['data']['file_id'] ?? $response;
+        return $this->request->fileUpload( 'POST', "/file/upload", $body, $options );
     }
 }

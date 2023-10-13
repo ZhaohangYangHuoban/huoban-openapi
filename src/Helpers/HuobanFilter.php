@@ -26,7 +26,7 @@ class HuobanFilter
      */
     public $tableId;
 
-    public function __construct($tableId)
+    public function __construct( $tableId )
     {
         $this->tableId = $tableId;
         $this->setBodyFefault();
@@ -38,7 +38,7 @@ class HuobanFilter
      * @param integer|null $tableId
      * @return void
      */
-    public function clearBody(?int $tableId): void
+    public function clearBody( ?int $tableId ) : void
     {
         $this->body = [];
         $this->setBodyFefault();
@@ -49,7 +49,7 @@ class HuobanFilter
      *
      * @return void
      */
-    public function setBodyFefault(): void
+    public function setBodyFefault() : void
     {
         $this->body['table_id'] = $this->tableId;
 
@@ -62,7 +62,7 @@ class HuobanFilter
      *
      * @return array
      */
-    public function getBody(): array
+    public function getBody() : array
     {
         return $this->body;
     }
@@ -73,15 +73,15 @@ class HuobanFilter
      * @param array $conditions
      * @return object
      */
-    public function setFilter(array $conditions): object
+    public function setFilter( array $conditions ) : object
     {
         // 如果之前没有条件结构，则新创建一个
-        !isset($this->body['filter']['and']) && $this->body['filter'] = ['and' => []];
+        ! isset( $this->body['filter']['and'] ) && $this->body['filter'] = [ 'and' => [] ];
 
-        foreach ($conditions as $condition) {
-            foreach ($condition as $field => $query) {
+        foreach ( $conditions as $condition ) {
+            foreach ( $condition as $field => $query ) {
 
-                $this->body['filter']['and'][] = [
+                $this->body['filter']['and'][] = [ 
                     'field' => $field,
                     'query' => $query,
                 ];
@@ -96,14 +96,14 @@ class HuobanFilter
      * @param array $conditions
      * @return object
      */
-    public function setOrderBy(array $conditions): object
+    public function setOrderBy( array $conditions ) : object
     {
-        !isset($this->body['order_by']) && $this->body['order_by'] = [];
+        ! isset( $this->body['order_by'] ) && $this->body['order_by'] = [];
 
-        foreach ($conditions as $condition) {
-            foreach ($condition as $field => $sort) {
+        foreach ( $conditions as $condition ) {
+            foreach ( $condition as $field => $sort ) {
 
-                $this->body['order_by'][] = [
+                $this->body['order_by'][] = [ 
                     'field' => $field,
                     'sort'  => $sort,
                 ];
@@ -119,9 +119,9 @@ class HuobanFilter
      * @param array $keywords
      * @return object
      */
-    public function setSearch(array $field_ids, array $keywords): object
+    public function setSearch( array $field_ids, array $keywords ) : object
     {
-        $this->body['search'] = [
+        $this->body['search'] = [ 
             'fields'   => $field_ids,
             'keywords' => $keywords,
         ];
@@ -135,19 +135,19 @@ class HuobanFilter
      * @param [type] $field
      * @return bool
      */
-    public function getFilterConditionsRepeatKey(string $field, ?array $filter): bool
+    public function getFilterConditionsRepeatKey( string $field, ?array $filter ) : bool
     {
         $and = $filter ? $filter['and'] : $this->body['filter']['and'];
 
-        foreach ($and as $key => $value) {
+        foreach ( $and as $key => $value ) {
 
-            if (isset($value['or']) && is_array($value['or'])) {
-                if ($this->getFilterConditionsRepeatKey($field, $value['or'])) {
+            if ( isset( $value['or'] ) && is_array( $value['or'] ) ) {
+                if ( $this->getFilterConditionsRepeatKey( $field, $value['or'] ) ) {
                     return true;
                 }
             }
 
-            if ($field == $value['field']) {
+            if ( $field == $value['field'] ) {
                 return true;
             }
         }
@@ -160,7 +160,7 @@ class HuobanFilter
      * @param integer $limit
      * @return object
      */
-    public function setLimit(int $limit): object
+    public function setLimit( int $limit ) : object
     {
         $this->body['limit'] = $limit;
         return $this;
@@ -172,7 +172,7 @@ class HuobanFilter
      * @param integer $offset
      * @return object
      */
-    public function setOffset(int $offset): object
+    public function setOffset( int $offset ) : object
     {
         $this->body['offset'] = $offset;
         return $this;
@@ -183,82 +183,82 @@ class HuobanFilter
      *
      * @return object
      */
-    public function inItemIds($item_ids): object
+    public function inItemIds( $item_ids ) : object
     {
-        $condition = ['item_id' => ['in' => $item_ids]];
-        $this->setFilter([$condition]);
+        $condition = [ 'item_id' => [ 'in' => $item_ids ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     }
 
-    public function eq($field, $value): object
+    public function eq( $field, $value ) : object
     {
-        $condition = [$field => ['eq' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'eq' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //等于
 
-    public function ne($field, $value): object
+    public function ne( $field, $value ) : object
     {
-        $condition = [$field => ['ne' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'ne' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //不等于
 
-    public function gt($field, $value): object
+    public function gt( $field, $value ) : object
     {
-        $condition = [$field => ['gt' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'gt' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //大于
 
-    public function gte($field, $value): object
+    public function gte( $field, $value ) : object
     {
-        $condition = [$field => ['gte' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'gte' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //大等于
 
-    public function lt($field, $value): object
+    public function lt( $field, $value ) : object
     {
-        $condition = [$field => ['lt' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'lt' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //小于
 
-    public function lte($field, $value): object
+    public function lte( $field, $value ) : object
     {
-        $condition = [$field => ['lte' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'lte' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //小等于
 
-    public function in($field, array $value): object
+    public function in( $field, array $value ) : object
     {
-        $condition = [$field => ['in' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'in' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //包含
 
-    public function nin($field, array $value): object
+    public function nin( $field, array $value ) : object
     {
-        $condition = [$field => ['nin' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'nin' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //不包含
 
-    public function em($field, bool $value): object
+    public function em( $field, bool $value ) : object
     {
-        $condition = [$field => ['em' => $value]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ 'em' => $value ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //是否为空
@@ -270,10 +270,10 @@ class HuobanFilter
      * @param [type] $condition
      * @return object
      */
-    public function addFilterOr($field, $condition): object
+    public function addFilterOr( $field, $condition ) : object
     {
-        $condition = [$field => [$condition]];
-        $this->setFilter([$condition]);
+        $condition = [ $field => [ $condition ] ];
+        $this->setFilter( [ $condition ] );
 
         return $this;
     } //多个条件并集
@@ -334,21 +334,21 @@ class HuobanFilter
     public function exampleFilterSource()
     {
         // 创建人条件
-        $body = [
+        $body = [ 
             'field' => 'created_by',
-            'query' => [
-                'eq'  => [
+            'query' => [ 
+                'eq'  => [ 
                     11001,
                 ],
-                'ne'  => [
+                'ne'  => [ 
                     11001,
                 ],
-                'in'  => [
+                'in'  => [ 
                     110011,
                     110012,
                     'myself',
                 ],
-                'nin' => [
+                'nin' => [ 
                     110011,
                     110012,
                     'myself',
@@ -357,9 +357,9 @@ class HuobanFilter
         ];
 
         // 创建时间
-        $body = [
+        $body = [ 
             'field' => 'created_on',
-            'query' => [
+            'query' => [ 
                 'eq'  => '2015-05-11',
                 'ne'  => 'last_week',
                 'gt'  => '2015-05-11',
@@ -369,25 +369,25 @@ class HuobanFilter
             ],
         ];
         // 文本字段
-        $body = [
+        $body = [ 
             'field' => 720002,
-            'query' => [
+            'query' => [ 
                 'eq'  => '匹配的文本',
                 'ne'  => '不匹配的文本',
-                'in'  => [
+                'in'  => [ 
                     '匹配的文本1',
                     '匹配的文本2',
                 ],
-                'nin' => [
+                'nin' => [ 
                     '不匹配的文本1',
                     '不匹配的文本2',
                 ],
-                'or'  => [
-                    [
+                'or'  => [ 
+                    [ 
                         'eq' => '匹配的文本',
                     ],
-                    [
-                        'in' => [
+                    [ 
+                        'in' => [ 
                             '匹配的文本1',
                             '匹配的文本2',
                         ],
@@ -397,20 +397,20 @@ class HuobanFilter
             ],
         ];
         // 数字字段和计算字段
-        $body = [
+        $body = [ 
             'field' => 720003,
-            'query' => [
+            'query' => [ 
                 'eq'  => 20,
                 'ne'  => 20,
                 'gt'  => 20,
                 'lt'  => 20,
                 'gte' => 20,
                 'lte' => 20,
-                'or'  => [
-                    [
+                'or'  => [ 
+                    [ 
                         'eq' => 20,
                     ],
-                    [
+                    [ 
                         'gte' => 10,
                         'lt'  => 20,
                     ],
@@ -419,21 +419,21 @@ class HuobanFilter
             ],
         ];
         // 分类字段
-        $body = [
+        $body = [ 
             'field' => 720004,
-            'query' => [
-                'eq'  => [
+            'query' => [ 
+                'eq'  => [ 
                     1,
                     3,
                 ],
-                'ne'  => [
+                'ne'  => [ 
                     2,
                 ],
-                'in'  => [
+                'in'  => [ 
                     1,
                     3,
                 ],
-                'nin' => [
+                'nin' => [ 
                     1,
                     3,
                 ],
@@ -441,9 +441,9 @@ class HuobanFilter
             ],
         ];
         // 时间字段
-        $body = [
+        $body = [ 
             'field' => 720005,
-            'query' => [
+            'query' => [ 
                 'eq'  => '2015-05-11',
                 'ne'  => 'last_week',
                 'gt'  => '2015-05-11',
@@ -454,21 +454,21 @@ class HuobanFilter
             ],
         ];
         // 联系人字段
-        $body = [
+        $body = [ 
             'field' => 720006,
-            'query' => [
-                'eq'  => [
+            'query' => [ 
+                'eq'  => [ 
                     11001,
                 ],
-                'ne'  => [
+                'ne'  => [ 
                     11001,
                 ],
-                'in'  => [
+                'in'  => [ 
                     110011,
                     110012,
                     'myself',
                 ],
-                'nin' => [
+                'nin' => [ 
                     110011,
                     110012,
                     'myself',
@@ -477,27 +477,27 @@ class HuobanFilter
             ],
         ];
         // 图片字段
-        $body = [
+        $body = [ 
             'field' => 720007,
-            'query' => [
+            'query' => [ 
                 'em' => false,
             ],
         ];
         // 关联字段
-        $body = [
+        $body = [ 
             'field' => 720008,
-            'query' => [
-                'eq'  => [
+            'query' => [ 
+                'eq'  => [ 
                     21001,
                 ],
-                'ne'  => [
+                'ne'  => [ 
                     21001,
                 ],
-                'in'  => [
+                'in'  => [ 
                     210011,
                     210012,
                 ],
-                'nin' => [
+                'nin' => [ 
                     210011,
                     210012,
                 ],
@@ -505,16 +505,16 @@ class HuobanFilter
             ],
         ];
         // 数据ID字段
-        $body = [
+        $body = [ 
             'field' => 'item_id',
-            'query' => [
+            'query' => [ 
                 'eq'  => 31001,
                 'ne'  => 31001,
-                'in'  => [
+                'in'  => [ 
                     310011,
                     310012,
                 ],
-                'nin' => [
+                'nin' => [ 
                     310011,
                     310012,
                 ],

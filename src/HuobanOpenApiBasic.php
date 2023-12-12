@@ -15,7 +15,7 @@ use HuobanOpenapi\Models\HuobanTable;
 use HuobanOpenapi\Models\HuobanFile;
 use HuobanOpenApi\Models\HuobanItem;
 
-class HuobanOpenApi
+class HuobanOpenApiBasic
 {
     public $huobanRequest;
     public $huobanOpenapiItem;

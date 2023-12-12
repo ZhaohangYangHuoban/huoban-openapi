@@ -18,7 +18,7 @@ class GuzzleRequest implements HuobanRequestInterface
     /**
      * 请求客户端对象
      */
-    protected $client;
+    protected Client $client;
 
     /**
      * 初始化配置信息

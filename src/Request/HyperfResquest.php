@@ -15,7 +15,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * hyperf 框架resquest，模型实例【Hyperf\Guzzle\ClientFactory存在，可直接实例化使用】
  */
-class HyperfGuzzleRequest implements HuoBanRequestInterface
+class HyperfResquest implements HuoBanRequestInterface
 {
     protected HuobanConfigInterface $huobanConfig;
     private ClientFactory $clientFactory;
@@ -26,9 +26,10 @@ class HyperfGuzzleRequest implements HuoBanRequestInterface
      *
      * @param array $config
      */
-    public function __construct( array $config )
+    public function __construct( ClientFactory $clientFactory, array $config )
     {
-        $this->huobanConfig = new HuobanConfig( $config );
+        $this->huobanConfig  = new HuobanConfig( $config );
+        $this->clientFactory = $clientFactory;
     }
 
 

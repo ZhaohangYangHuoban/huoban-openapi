@@ -18,14 +18,14 @@ class HuobanVerify
      * @param string $location
      * @return void
      */
-    public static function verifyHuobanResponse($response, $supplementary = '')
+    public static function verifyHuobanResponse( $response, $supplementary = '' )
     {
-        if (isset($response['code'])) {
+        if ( isset( $response['code'] ) ) {
             $message = $response['message'] ?? '未知错误信息';
             $message .= ' 【' . $supplementary . '】';
 
             $location = debug_backtrace();
-            throw new \Exception($location . $message, $response['code']);
+            throw new \Exception( $location . $message, $response['code'] );
         }
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace HuobanOpenapi\Request;
+namespace HuobanOpenApi\Request;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use HuobanOpenApi\Contracts\HuobanConfigInterface;
-use HuobanOpenapi\Contracts\HuoBanRequestInterface;
+use HuobanOpenApi\Contracts\HuobanRequestInterface;
 use HuobanOpenApi\Config\HuobanConfig;
 use Hyperf\Guzzle\ClientFactory;
 use Psr\Http\Message\RequestInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * hyperf 框架resquest，模型实例【Hyperf\Guzzle\ClientFactory存在，可直接实例化使用】
  */
-class HyperfResquest implements HuoBanRequestInterface
+class HyperfResquest implements HuobanRequestInterface
 {
     protected HuobanConfigInterface $huobanConfig;
     private ClientFactory $clientFactory;

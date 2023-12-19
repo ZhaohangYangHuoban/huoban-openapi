@@ -9,18 +9,18 @@ declare(strict_types=1);
 
 namespace HuobanOpenApi;
 
-use HuobanOpenapi\Contracts\HuoBanRequestInterface;
+use HuobanOpenApi\Contracts\HuobanRequestInterface;
 
-use HuobanOpenapi\Models\HuobanTable;
-use HuobanOpenapi\Models\HuobanFile;
+use HuobanOpenApi\Models\HuobanTable;
+use HuobanOpenApi\Models\HuobanFile;
 use HuobanOpenApi\Models\HuobanItem;
 
 class HuobanOpenApiBasic
 {
     public $huobanRequest;
-    public $huobanOpenapiItem;
-    public $huobanOpenapiTable;
-    public $huobanOpenapiFile;
+    public $HuobanOpenApiItem;
+    public $HuobanOpenApiTable;
+    public $HuobanOpenApiFile;
 
     public array $items = [];
     public array $tables = [];
@@ -30,51 +30,51 @@ class HuobanOpenApiBasic
         $this->huobanRequest = $huobanRequest;
     }
 
-    public function getHuobanOpenapiItem() : HuobanItem
+    public function getHuobanOpenApiItem() : HuobanItem
     {
-        if ( ! $this->huobanOpenapiItem ) {
-            $this->huobanOpenapiItem = new HuobanItem( $this->huobanRequest );
+        if ( ! $this->HuobanOpenApiItem ) {
+            $this->HuobanOpenApiItem = new HuobanItem( $this->huobanRequest );
         }
 
-        return $this->huobanOpenapiItem;
+        return $this->HuobanOpenApiItem;
     }
 
-    public function getHuobanOpenapiTable() : HuobanTable
+    public function getHuobanOpenApiTable() : HuobanTable
     {
-        if ( ! $this->huobanOpenapiTable ) {
-            $this->huobanOpenapiTable = new HuobanTable( $this->huobanRequest );
+        if ( ! $this->HuobanOpenApiTable ) {
+            $this->HuobanOpenApiTable = new HuobanTable( $this->huobanRequest );
         }
 
-        return $this->huobanOpenapiTable;
+        return $this->HuobanOpenApiTable;
     }
 
-    public function getHuobanOpenapiFile() : HuobanFile
+    public function getHuobanOpenApiFile() : HuobanFile
     {
-        if ( ! $this->huobanOpenapiFile ) {
-            $this->huobanOpenapiFile = new HuobanFile( $this->huobanRequest );
+        if ( ! $this->HuobanOpenApiFile ) {
+            $this->HuobanOpenApiFile = new HuobanFile( $this->huobanRequest );
         }
 
-        return $this->huobanOpenapiFile;
+        return $this->HuobanOpenApiFile;
     }
 
     public function getItem( int $item_id, ?bool $cache = true )
     {
 
         if ( ! isset( $this->items[ $item_id ] ) || ! $cache ) {
-            $this->items[ $item_id ] = $this->getHuobanOpenapiItem()->get( $item_id );
+            $this->items[ $item_id ] = $this->getHuobanOpenApiItem()->get( $item_id );
         }
         return $this->items[ $item_id ];
     }
     public function updateItem( int $item_id, array $body )
     {
-        $this->items[ $item_id ] = $this->getHuobanOpenapiItem()->update( $item_id, $body );
+        $this->items[ $item_id ] = $this->getHuobanOpenApiItem()->update( $item_id, $body );
         return $this->items[ $item_id ];
     }
 
     public function getTable( int $table_id, ?bool $cache = true )
     {
         if ( ! isset( $this->tables[ $table_id ] ) || ! $cache ) {
-            $this->tables[ $table_id ] = $this->getHuobanOpenapiTable()->get( $table_id );
+            $this->tables[ $table_id ] = $this->getHuobanOpenApiTable()->get( $table_id );
         }
         return $this->tables[ $table_id ];
     }
@@ -98,7 +98,7 @@ class HuobanOpenApiBasic
                 ],
             ],
         ];
-        return $this->getHuobanOpenapiFile()->upload( $body, $options );
+        return $this->getHuobanOpenApiFile()->upload( $body, $options );
     }
 
     public function getFieldByFieldId( array $table, int|string $field_id ) : ?array

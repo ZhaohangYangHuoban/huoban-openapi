@@ -12,7 +12,7 @@ use \HuobanOpenApi\Models\HuobanItem;
 
 // stup
 $huobanRequest = new GuzzleRequest( $config = [] );
-$huobanOpenapi = new HuobanOpenApi( $huobanRequest );
+$HuobanOpenApi = new HuobanOpenApi( $huobanRequest );
 
-$huobanItem = $huobanOpenapi->getHuobanOpenapiItem();
+$huobanItem = $HuobanOpenApi->getHuobanOpenApiItem();
 $item       = $huobanItem->get( $item_id = '' );

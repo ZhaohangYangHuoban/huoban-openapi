@@ -5,14 +5,14 @@
  * @Description: 伙伴智慧大客户研发部
  */
 
-namespace HuobanOpenapi\Models\Basic;
+namespace HuobanOpenApi\Models\Basic;
 
-use HuobanOpenapi\Contracts\HuoBanRequestInterface;
+use HuobanOpenApi\Contracts\HuobanRequestInterface;
 
 class HuobanBasic
 {
     public $request;
-    public function __construct( HuoBanRequestInterface $request )
+    public function __construct( HuobanRequestInterface $request )
     {
         $this->request = $request;
     }

@@ -58,7 +58,7 @@ class HyperfResquest implements HuobanRequestInterface
     public function getHttpClient() : Client
     {
         // $client 为协程化的 GuzzleHttp\Client 对象
-        if ( ! $this->client ) {
+        if ( ! isset( $this->client ) || ! $this->client ) {
             $this->setHttpClient();
         }
         return $this->client;

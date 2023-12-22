@@ -54,7 +54,7 @@ class GuzzleRequest implements HuobanRequestInterface
      */
     public function getHttpClient() : Client
     {
-        if ( ! $this->client ) {
+        if ( ! isset( $this->client ) || ! $this->client ) {
             $this->client = new Client( [ 
                 'base_uri'    => $this->huobanConfig->getApiUrl(),
                 'timeout'     => 600,

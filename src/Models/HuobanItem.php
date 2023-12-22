@@ -57,6 +57,18 @@ class HuobanItem extends HuobanBasic
     }
 
     /**
+     * 改[批量]
+     *
+     * @param array $body
+     * @param array $options
+     * @return array
+     */
+    public function updates( array $body = [], array $options = [] ) : array
+    {
+        return $this->request->execute( 'PUT', "/items", $body, $options );
+    }
+
+    /**
      * 获取单条数据
      *
      * @param integer $item_id

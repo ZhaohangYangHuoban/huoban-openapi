@@ -44,6 +44,18 @@ class HuobanItem extends HuobanBasic
     }
 
     /**
+     * 删[批量]
+     *
+     * @param array $body
+     * @param array $options
+     * @return array
+     */
+    public function dels( array $body = [], array $options = [] ) : array
+    {
+        return $this->request->execute( 'DELETE', "/items", $body, $options );
+    }
+
+    /**
      * 改
      *
      * @param integer $item_id

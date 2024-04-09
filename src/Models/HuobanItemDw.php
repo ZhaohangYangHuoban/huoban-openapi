@@ -6,8 +6,6 @@ use HuobanOpenApi\Models\Basic\HuobanBasic;
 
 class HuobanItemDw extends HuobanBasic
 {
-    use \HuobanOpenApi\Models\Components\Item\Format;
-
     /**
      * 增
      *
@@ -19,6 +17,19 @@ class HuobanItemDw extends HuobanBasic
     {
         return $this->request->execute( 'POST', "/dw_item", $body, $options );
     }
+
+    /**
+     * 增【批量】
+     *
+     * @param array $body
+     * @param array $options
+     * @return array
+     */
+    public function creates( array $body = [], array $options = [] )
+    {
+        return $this->request->execute( 'POST', "/dw_item", $body, $options );
+    }
+
 
     /**
      * 删
@@ -44,6 +55,18 @@ class HuobanItemDw extends HuobanBasic
     public function update( int $item_id, array $body = [], array $options = [] )
     {
         return $this->request->execute( 'PUT', "/dw_item/{$item_id}", $body, $options );
+    }
+
+    /**
+     * 改[批量]
+     *
+     * @param array $body
+     * @param array $options
+     * @return array
+     */
+    public function updates( array $body = [], array $options = [] ) : array
+    {
+        return $this->request->execute( 'PUT', "/dw_item", $body, $options );
     }
 
     /**

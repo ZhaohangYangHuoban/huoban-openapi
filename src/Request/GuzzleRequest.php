@@ -6,29 +6,67 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\RequestInterface;
 use HuobanOpenApi\Contracts\HuobanConfigInterface;
 use HuobanOpenApi\Contracts\HuobanRequestInterface;
 use HuobanOpenApi\Config\HuobanConfig;
+use Hyperf\Guzzle\ClientFactory;
+use Psr\SimpleCache\CacheInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
-class GuzzleRequest implements HuobanRequestInterface
+/**
+ * hyperf 框架resquest，模型实例【Hyperf\Guzzle\ClientFactory存在，可直接实例化使用】
+ */
+class HyperfResquest implements HuobanRequestInterface
 {
     protected HuobanConfigInterface $huobanConfig;
-
-    /**
-     * 请求客户端对象
-     */
+    protected LoggerInterface $logger;
+    protected CacheInterface $cache;
     protected Client $client;
+    // 每分钟最大请求数
+    protected int $maxRequestNumber = 300;
+    private ClientFactory $clientFactory;
 
     /**
      * 初始化配置信息
      *
      * @param array $config
      */
-    public function __construct( array $config )
+    public function __construct( ClientFactory $clientFactory, CacheInterface $cache, LoggerInterface $logger, array $config )
     {
-        $this->huobanConfig = new HuobanConfig( $config );
+        $this->huobanConfig  = new HuobanConfig( $config );
+        $this->clientFactory = $clientFactory;
+
+        $this->cache  = $cache;
+        $this->logger = $logger;
     }
+
+    public function countRequests()
+    {
+        $name = $this->huobanConfig->getName() ?? "";
+
+        $minute = (int) date( 'i' );
+        $second = (int) date( 's' );
+
+        $countMinuteKey = 'countMinuteKey_' . $name . '_' . $minute;
+        $countNumber    = $this->cache->get( $countMinuteKey, 0 );
+
+        $countNumber++;
+        // 如果频率超限，延迟等待然后依次执行
+        if ( $countNumber >= $this->maxRequestNumber ) {
+            $this->logger->info( '当前时间点接口分钟执行频率超限' );
+
+            sleep( 60 - $second + 1 );
+            $countMinuteKey = 'countMinuteKey_' . $name . '_' . ( $minute + 1 );
+            $countNumber    = $this->cache->set( $countMinuteKey, 0, 60 );
+        }
+        else {
+            $this->cache->set( $countMinuteKey, $countNumber, 60 );
+        }
+
+        // $this->logger->info( '当前时间点接口分钟执行次数为' . $countNumber );
+    }
+
 
     /**
      * 设置请求的默认请求头
@@ -54,15 +92,29 @@ class GuzzleRequest implements HuobanRequestInterface
      */
     public function getHttpClient() : Client
     {
+        // $client 为协程化的 GuzzleHttp\Client 对象
         if ( ! isset( $this->client ) || ! $this->client ) {
-            $this->client = new Client( [ 
-                'base_uri'    => $this->huobanConfig->getApiUrl(),
-                'timeout'     => 600,
-                'verify'      => false,
-                'http_errors' => true,
-                'headers'     => $this->defaultHeader(),
-            ] );
+            $this->setHttpClient();
         }
+        return $this->client;
+    }
+
+    /**
+     * 设置请求客户端
+     *
+     * @return \GuzzleHttp\Client
+     */
+    public function setHttpClient()
+    {
+        $this->client = $this->clientFactory->create( [ 
+            'base_uri'    => $this->huobanConfig->getApiUrl(),
+            'timeout'     => 600,
+            'verify'      => false,
+            'http_errors' => true,
+            // 'debug'       => true,
+            'headers'     => $this->defaultHeader(),
+        ] );
+
         return $this->client;
     }
 
@@ -73,7 +125,7 @@ class GuzzleRequest implements HuobanRequestInterface
      * @param string $url
      * @param array $body
      * @param array $options
-     * @return Request
+     * @return \GuzzleHttp\Psr7\Request
      */
     public function getRequest( string $method, string $url, array $body = [], array $options = [] ) : Request
     {
@@ -93,6 +145,7 @@ class GuzzleRequest implements HuobanRequestInterface
     public function requestJsonSync( RequestInterface $request ) : array
     {
         try {
+            $this->countRequests();
             $response = $this->getHttpClient()->send( $request );
         } catch ( ServerException $e ) {
             $response = $e->getResponse();
@@ -102,7 +155,7 @@ class GuzzleRequest implements HuobanRequestInterface
     }
 
     /**
-     * 根据传入的多个请求对象，执行并发请求并返回结果
+     * 根据传入的多个请求对象，执行并发请求并返回结果【不能检测频率，慎重使用】
      *
      * @param array $requests
      * @param integer|null $concurrency
@@ -138,7 +191,7 @@ class GuzzleRequest implements HuobanRequestInterface
     }
 
     /**
-     * 执行一般请求
+     * 执行请求
      *
      * @param string $method
      * @param string $url

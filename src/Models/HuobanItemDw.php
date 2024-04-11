@@ -41,7 +41,21 @@ class HuobanItemDw extends HuobanBasic
      */
     public function del( int $item_id, array $body = [], array $options = [] )
     {
-        return $this->request->execute( 'DELETE', "/dw_item/{$item_id}", $body, $options );
+        $body['item_ids'][] = $item_id;
+
+        return $this->dels( $body, $options );
+    }
+
+    /**
+     * 删[批量]
+     *
+     * @param array $body
+     * @param array $options
+     * @return array
+     */
+    public function dels( array $body = [], array $options = [] ) : array
+    {
+        return $this->request->execute( 'DELETE', "/dw_item", $body, $options );
     }
 
     /**
